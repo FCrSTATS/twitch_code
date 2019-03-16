@@ -38,6 +38,8 @@ for (cluburl in club_information$url) {
     ws <- read_html(cluburl)
     tables <- ws %>% html_table()
     table <- tables[[1]]
+  
+    if (NCOL(table) == 17){
     colnames(table) <- c("squad_number",
                          "spare",
                          "player",
@@ -54,7 +56,24 @@ for (cluburl in club_information$url) {
                          "assists",
                          "yc",
                          "yc2",
-                         "rd")
+                         "rd")}else{
+  
+      colnames(table) <- c("squad_number",
+                         "spare",
+                         "player",
+                         "spare2",
+                         "age",
+                         "position",
+                         "mins_played",
+                         "apps",
+                         "in_squad",
+                         "sub_in",
+                         "sub_out",
+                         "warmed_bench",
+                         "goals",
+                         "yc",
+                         "yc2",
+                         "rd")}
     table$club <- ws %>% html_node("h1") %>% html_text() %>% as.character()
     table$url <- cluburl
     table <- table %>% select(-spare, -spare2)
